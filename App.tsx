@@ -25,6 +25,7 @@ import { StudyPlanView } from './views/StudyPlanView';
 import { ProfileView } from './views/ProfileView';
 import { PricingView } from './views/PricingView';
 import { AuthView } from './views/AuthView';
+import { AdminDashboardView } from './views/AdminDashboardView';
 
 const MainContent: React.FC = () => {
   const { currentView, accessibility, profile, isAuthLoading, activeSessionData, setActiveSessionData, setCurrentView, startPractice } = useApp();
@@ -148,6 +149,7 @@ const MainContent: React.FC = () => {
         {currentView === 'profile' && <ProfileView />}
         {currentView === 'pricing' && <PricingView />}
         {currentView === 'auth' && <AuthView />}
+        {currentView === 'admin' && <AdminDashboardView />}
       </main>
 
       {/* Global AI Tutor Drawer / Modal */}

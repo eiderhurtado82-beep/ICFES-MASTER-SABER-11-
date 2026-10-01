@@ -1,0 +1,7 @@
+{
+  "name": "ICFES MASTER — Prepárate para Saber 11°",
+  "description": "Ecosistema integral de preparación y estudio para las Pruebas Saber 11° del ICFES con diagnóstico inicial, banco de preguntas con explicaciones pedagógicas, simulacros, planes de estudio y Tutor IA.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+

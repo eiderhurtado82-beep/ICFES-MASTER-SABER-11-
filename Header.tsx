@@ -15,6 +15,7 @@ import {
   Crown,
   User,
   LogIn,
+  ShieldCheck,
 } from 'lucide-react';
 
 export const Header: React.FC = () => {
@@ -119,6 +120,22 @@ export const Header: React.FC = () => {
             </span>
             <span className="sm:hidden">PRO</span>
           </button>
+
+          {/* Admin Panel Button (Exclusive for Superadmin) */}
+          {profile && profile.email === 'eiderhurtado82@gmail.com' && (
+            <button
+              onClick={() => setCurrentView('admin')}
+              className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-full text-xs font-black transition-all cursor-pointer shadow-xs active:scale-95 ${
+                currentView === 'admin'
+                  ? 'bg-blue-600 text-white ring-2 ring-blue-400'
+                  : 'bg-blue-500/15 border border-blue-500/30 text-blue-600 dark:text-blue-400 hover:bg-blue-600 hover:text-white'
+              }`}
+              title="Panel de Administrador"
+            >
+              <ShieldCheck className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Admin</span>
+            </button>
+          )}
 
           {/* Tutor ICFES Button (Only for authenticated sessions) */}
           {profile && profile.isAuthenticated && (

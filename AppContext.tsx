@@ -173,7 +173,8 @@ export type ViewType =
   | 'tutor'
   | 'profile'
   | 'pricing'
-  | 'auth';
+  | 'auth'
+  | 'admin';
 
 interface AppContextType {
   profile: UserProfile | null;

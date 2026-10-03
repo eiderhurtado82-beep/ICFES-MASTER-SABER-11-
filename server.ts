@@ -367,20 +367,30 @@ app.post('/api/create-checkout-session', async (req, res) => {
 });
 
 // Vite middleware in development, static files in production
-if (process.env.NODE_ENV !== 'production') {
-  const { createServer: createViteServer } = await import('vite');
-  const vite = await createViteServer({
-    server: { middlewareMode: true, host: '0.0.0.0', port: Number(PORT) },
-    appType: 'spa',
-  });
-  app.use(vite.middlewares);
-} else {
-  app.use(express.static(path.resolve(__dirname, 'dist')));
-  app.get('*', (_req, res) => {
-    res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
-  });
+async function startServer() {
+  try {
+    if (process.env.NODE_ENV !== 'production') {
+      const { createServer: createViteServer } = await import('vite');
+      const vite = await createViteServer({
+        server: { middlewareMode: true, host: '0.0.0.0', port: Number(PORT) },
+        appType: 'spa',
+      });
+      app.use(vite.middlewares);
+    } else {
+      app.use(express.static(path.resolve(__dirname, 'dist')));
+      app.get('*', (_req, res) => {
+        res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
+      });
+    }
+
+    app.listen(Number(PORT), '0.0.0.0', () => {
+      console.log(`Server listening on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error('Fatal error starting server:', error);
+    process.exit(1);
+  }
 }
 
-app.listen(Number(PORT), '0.0.0.0', () => {
-  console.log(`Server listening on port ${PORT}`);
-});
+startServer();
+

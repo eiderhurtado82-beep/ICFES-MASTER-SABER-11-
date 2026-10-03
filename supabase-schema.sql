@@ -33,6 +33,14 @@ DROP POLICY IF EXISTS "Usuarios pueden insertar su propio perfil" ON profiles;
 CREATE POLICY "Usuarios pueden insertar su propio perfil" 
 ON profiles FOR INSERT WITH CHECK (auth.uid() = id);
 
+-- Permite al administrador ver y modificar TODOS los perfiles
+DROP POLICY IF EXISTS "Admin full access profiles" ON profiles;
+CREATE POLICY "Admin full access profiles" 
+ON profiles FOR ALL 
+USING (auth.jwt() ->> 'email' = 'eiderhurtado82@gmail.com')
+WITH CHECK (auth.jwt() ->> 'email' = 'eiderhurtado82@gmail.com');
+
+
 -- Trigger: Crear un perfil automáticamente cuando alguien se registra
 CREATE OR REPLACE FUNCTION public.handle_new_user() 
 RETURNS trigger AS $$
@@ -192,6 +200,14 @@ DROP POLICY IF EXISTS "Usuarios pueden ver su propia suscripción" ON subscripti
 CREATE POLICY "Usuarios pueden ver su propia suscripción" 
 ON subscriptions FOR SELECT 
 USING (auth.uid() = user_id);
+
+-- Permite al administrador ver y modificar TODAS las suscripciones
+DROP POLICY IF EXISTS "Admin full access subscriptions" ON subscriptions;
+CREATE POLICY "Admin full access subscriptions" 
+ON subscriptions FOR ALL 
+USING (auth.jwt() ->> 'email' = 'eiderhurtado82@gmail.com')
+WITH CHECK (auth.jwt() ->> 'email' = 'eiderhurtado82@gmail.com');
+
 
 -- 4. Trigger: Asignar plan gratuito automático al registrarse
 CREATE OR REPLACE FUNCTION public.handle_new_subscription() 
